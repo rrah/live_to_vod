@@ -75,26 +75,12 @@ def cat_hls(file_location, start_time, end_time, file_name):
                    'ob3_1080', 'ob3_480']
     file_list = os.listdir(file_location)
     file_list.remove('index.m3u8')
-    try:
-        file_list.remove('index.m3u8.bak')
-    except ValueError:
-        pass
-    try:
-        file_list.remove('ob3_576')
-    except ValueError:
-        pass
-    try:
-        file_list.remove('ob3_720')
-    except ValueError:
-        pass
-    try:
-        file_list.remove('ob3_1080')
-    except ValueError:
-        pass
-    try:
-        file_list.remove('ob3_480')
-    except ValueError:
-        pass
+    
+    for file_ in remove_list:
+        try:
+            file_list.remove(file_)
+        except ValueError:
+            pass
     cat_list = []
     file_list = [file_.rstrip('.ts') for file_ in file_list]
     file_list = [int(file_) for file_ in file_list]
