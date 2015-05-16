@@ -138,9 +138,8 @@ def update_db_encode_job(source_file, destination_file, video_file_id,
     query = "INSERT INTO encode_jobs (source_file, destination_file, video_id, format_id, status, user_id, priority) VALUES ('{}', '{}', {}, {}, '{}', {}, {})".format(source_file, destination_file, video_file_id, format_id, status, user_id, priority)
     cur.execute(query)
 
-	
 def get_file_name(program, hd = ''):
-	return '15_{}_sum05{}.mp4'.format(program['title'].replace(' ', '_').replace(':','').replace('\'',''), hd)
+    return '15_{}_sum05{}.mp4'.format(program['title'].replace(' ', '_').replace(':','').replace('\'',''), hd)
 
 
 # Get stream details for wanted program
