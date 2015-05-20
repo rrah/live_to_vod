@@ -2,16 +2,13 @@
 Author: Robert Walker
 """
 import os
-import sys
 import json
 import psycopg2
 import psycopg2.extensions
-import datetime
 import subprocess
 import shutil
 import time
 import argparse
-import logging
 
 parser = argparse.ArgumentParser(description = 'Take some HLS fragments and make a video')
 parser.add_argument('title', action = 'store',
@@ -27,26 +24,30 @@ parser.add_argument('-e', metavar = 'end', action = 'store',
 parser.add_argument('-c', metavar = 'config', action = 'store', 
                     dest = 'config_file',
                     help = 'End time (in seconds from epoch) of event')
-parser.add_argument('-l', metavar = 'fragments', action = 'store', 
-                    dest = 'fragments_location', 
+parser.add_argument('--frag_loc', metavar = 'fragments location', action = 'store', 
+                    dest = 'fragments_location', default = '/data/webs/hls/www/hls/',
                     help = 'Where the fragments are located')
+parser.add_argument('--production', metavar = 'Name of production', action = 'store',
+                    dest = 'production', default = None,
+                    help = 'Name of production this show is part of')
+parser.add_argument('--dbconf', metavar = 'Configuartion file for connecting to the database',
+                    action = 'store', dest = 'dbconf', default = 'conf.json')
 args = parser.parse_args()
 
 config_file         = args.config_file
 title               = args.title
 video_box_id        = args.vbid
-fragments_location  = '/data/webs/hls/www/hls/'
+fragments_location  = args.fragments_location
 finished_shows      = '/mnt/Finished Shows/'
 web_vod             = '/data/videos/web/14-15/'
 playout             = '/data/videos/web/playout/'
 hddownload          = '/data/videos/web/HDdownload/'
 hqdownload          = '/data/videos/web/HQdownload/'
 temp_dir            = '/data/tmp'
-dbconf              = 'conf.json'
+dbconf              = args.dbconf
 
 
-conn = psycopg2.connect(host = dbconf["host"], database = dbconf["database"], 
-                        user = dbconf["user"], password = dbconf["pass"])
+conn = psycopg2.connect(**dbconf)
 cur = conn.cursor()
 
 # Load config file
