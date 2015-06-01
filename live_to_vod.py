@@ -27,6 +27,15 @@ parser.add_argument('-c', metavar = 'config', action = 'store',
 parser.add_argument('--frag_loc', metavar = 'fragments location', action = 'store', 
                     dest = 'fragments_location', default = '/data/webs/hls/www/hls/',
                     help = 'Where the fragments are located')
+parser.add_argument('--finished_shows', metavar = 'Finished Shows', action = 'store', 
+                    dest = 'finished_shows', default = '/mnt/Finished Shows/',
+                    help = 'Location of finished shows drive')
+parser.add_argument('--playout', metavar = 'Playout location', action = 'store', 
+                    dest = 'playout', default = '/data/videos/web/playout/',
+                    help = 'Location of playout storage')
+parser.add_argument('--web_vod', metavar = 'VoD location', action = 'store', 
+                    dest = 'web_vod', default = '/data/videos/web/14-15/',
+                    help = 'Location of web VoD storage')
 parser.add_argument('--production', metavar = 'Name of production', action = 'store',
                     dest = 'production', default = None,
                     help = 'Name of production this show is part of')
@@ -38,9 +47,9 @@ config_file         = args.config_file
 title               = args.title
 video_box_id        = args.vbid
 fragments_location  = args.fragments_location
-finished_shows      = '/mnt/Finished Shows/'
-web_vod             = '/data/videos/web/14-15/'
-playout             = '/data/videos/web/playout/'
+finished_shows      = args.finished_shows
+web_vod             = args.web_vod
+playout             = args.playout
 hddownload          = '/data/videos/web/HDdownload/'
 hqdownload          = '/data/videos/web/HQdownload/'
 temp_dir            = '/data/tmp'
