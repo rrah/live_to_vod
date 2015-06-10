@@ -10,39 +10,52 @@ import shutil
 import time
 import argparse
 
+
+# Add all the command line arguments
 parser = argparse.ArgumentParser(description = 'Take some HLS fragments and make a video')
 parser.add_argument('title', action = 'store',
                     help = 'Title of the show')
 parser.add_argument('vbid', action = 'store', 
                     help = 'ID of the video box this video belongs to')
-parser.add_argument('-s', metavar = 'start', action = 'store', 
+parser.add_argument('-s', action = 'store', 
                     dest = 'start_time',
                     help = 'Start time (in seconds from epoch) of event')
-parser.add_argument('-e', metavar = 'end', action = 'store', 
+parser.add_argument('-e',  action = 'store', 
                     dest = 'end_time',
                     help = 'End time (in seconds from epoch) of event')
 parser.add_argument('-c', metavar = 'config', action = 'store', 
                     dest = 'config_file',
-                    help = 'End time (in seconds from epoch) of event')
-parser.add_argument('--frag_loc', metavar = 'fragments location', action = 'store', 
+                    help = 'Configuration file for show information')
+parser.add_argument('--frag_loc', metavar = 'dir', action = 'store', 
                     dest = 'fragments_location', default = '/data/webs/hls/www/hls/',
                     help = 'Where the fragments are located')
-parser.add_argument('--finished_shows', metavar = 'Finished Shows', action = 'store', 
+parser.add_argument('--finished_shows', metavar = 'dir', action = 'store', 
                     dest = 'finished_shows', default = '/mnt/Finished Shows/',
                     help = 'Location of finished shows drive')
-parser.add_argument('--playout', metavar = 'Playout location', action = 'store', 
+parser.add_argument('--playout', metavar = 'dir', action = 'store', 
                     dest = 'playout', default = '/data/videos/web/playout/',
                     help = 'Location of playout storage')
-parser.add_argument('--web_vod', metavar = 'VoD location', action = 'store', 
+parser.add_argument('--web_vod', metavar = 'dir', action = 'store', 
                     dest = 'web_vod', default = '/data/videos/web/14-15/',
                     help = 'Location of web VoD storage')
-parser.add_argument('--production', metavar = 'Name of production', action = 'store',
+parser.add_argument('--hqdownload', metavar = 'dir', action = 'store',
+                    dest = 'hqdownload', default = '/data/videos/web/HQdownload',
+                    help = 'Location of HQDownload storage')
+parser.add_argument('--hddownload', metavar = 'dir', action = 'store',
+                    dest = 'hddownload', default = '/data/videos/web/HDdownload',
+                    help = 'Location of HDDownload storage')
+parser.add_argument('--temp_dir', metavar = 'dir', action = 'store',
+                    dest = 'temp_dir', default = '/data/tmp',
+                    help = 'Location for temporary files')
+parser.add_argument('--production', metavar = 'string', action = 'store',
                     dest = 'production', default = None,
                     help = 'Name of production this show is part of')
-parser.add_argument('--dbconf', metavar = 'Configuartion file for connecting to the database',
+parser.add_argument('--dbconf', metavar = 'file', help = 'Configuartion file for connecting to the database',
                     action = 'store', dest = 'dbconf', default = 'conf.json')
 args = parser.parse_args()
 
+
+# Set local variables to arguments
 config_file         = args.config_file
 title               = args.title
 video_box_id        = args.vbid
@@ -50,9 +63,9 @@ fragments_location  = args.fragments_location
 finished_shows      = args.finished_shows
 web_vod             = args.web_vod
 playout             = args.playout
-hddownload          = '/data/videos/web/HDdownload/'
-hqdownload          = '/data/videos/web/HQdownload/'
-temp_dir            = '/data/tmp'
+hddownload          = args.hddownload
+hqdownload          = args.hqdownload
+temp_dir            = args.temp_dir
 dbconf              = args.dbconf
 
 
